@@ -1,0 +1,195 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset0 Arial Narrow;}{\f2\fnil Arial Narrow;}}
+{\*\generator Riched20 10.0.18362}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs44\lang9\par
+\ul\b DATABASE ASSIGNMENT 2\par
+\par
+\ulnone\b0\fs32\par
+\b\f1\par
+1.\tab Create a table STUDENT by identifying the suitable keys.\par
+\b0\par
+create table student(\par
+StudentID int(4),\par
+StudentName varchar(25) not null,\par
+City varchar(3),\par
+Deposit double(8,2) default 5000,\par
+primary key(StudentID),\par
+check(City In ('UDP','MNG','BNG','PJM','MAR'))\par
+);\par
+\b\par
+a.\tab Create suitable constraints with proper names. Check if constraints have been created.\par
+\b0 insert into student (StudentID,StudentName,City,Deposit) values(1,'Sam',' UDP ',4000);\par
+insert into student values(2,'Ram','MNG',5000);\par
+insert into student values(3,'Jack','PJM',6000);\par
+\b\par
+b.\tab Enter 10 rows for the table with data matching constraints and data not matching constraints. Observe the behavior in both cases.\par
+\b0 insert into student (StudentID,StudentName,City,Deposit) values(1,'ana',' UDP ',7000);\par
+insert into student values(2,'jia','MNG',6000);\par
+insert into student values(1,'sia','PJM',7000);\par
+insert into student values(9,'kia','MAR',8000);\par
+insert into student (StudentID,StudentName,City) values(5,'Ash','PJM');\par
+insert into student values(7,heeya',' PJM ',5000);\par
+insert into student values(3,'hina','MAR',6000);\par
+insert into student ( StudentID, StudentName,City) values(8,'chris','BNG');\par
+insert into student values(8,'tia','PJM',8000);\par
+insert into student (StudentID,StudentName,City) values(10,'hiya,' MAR'');\par
+\par
+\b c.\tab Try deleting constraints and columns and enter data accordingly to check the behavior. \b0\par
+alter table student\par
+drop column Deposit;\par
+\par
+\b 2.\tab Remote Terminal Unit Database\b0\par
+\par
+\b 2. Participants are instructed to create following tables with appropriate data types, primary key, foreign\b0   \b key, not null and check constraints.\par
+Insert data as shown below into respective tables\par
+\b0\par
+\b\par
+Table \f2\endash\f1  RTU\par
+\b0 use edac1;\par
+create table RTU(\par
+RTU_ID varchar(5),\par
+LOCATION varchar(20) not null,\par
+IP_ADDRESS varchar(20) not null,\par
+PRIMARY KEY(RTU_ID)\par
+);\par
+\par
+insert into RTU values('R101','BENGALURU','192.168.0.1');\par
+insert into RTU values('R102','MUMBAI','192.168.0.2');\par
+insert into RTU values('R103','CHENNAI','192.168.0.3');\par
+insert into RTU values('R104','NEW DELHI','192.168.0.4');\par
+insert into RTU values('R105','KOLKATA','192.168.0.5');\par
+\par
+\b Table \f2\endash\f1  SENSORS:\b0\par
+create table SENSORS(\par
+SENSOR_ID varchar(5),\par
+RTU_ID varchar(5) not null,\par
+FOREIGN KEY (RTU_ID) REFERENCES RTU(RTU_ID),\par
+STATUS varchar(10) not null,\par
+SENSOR_TYPE varchar(20) not null,\par
+REQ_VAL double(5,2) not null,\par
+CURR_VAL double(5,2),\par
+check(STATUS in ('ENABLED','DISABLED')),\par
+PRIMARY KEY(SENSOR_ID)\par
+);\par
+\par
+insert into SENSORS values('S801','R101','ENABLED','PRESSURE',34,33);\par
+insert into SENSORS values('S802','R101','ENABLED','TEMPRATURE',98,90);\par
+insert into SENSORS (SENSOR_ID,RTU_ID,STATUS,SENSOR_TYPE,REQ_VAL) values('S803','R101','DISABLED','TEMPRATURE',96);\par
+insert into SENSORS values('S804','R102','ENABLED','PRESSURE',30,32);\par
+insert into SENSORS values('S805','R102','ENABLED','PRESSURE',36,32);\par
+insert into SENSORS (SENSOR_ID,RTU_ID,STATUS,SENSOR_TYPE,REQ_VAL) values('S806','R102','DISABLED','TEMPRATURE',108);\par
+insert into SENSORS values('S807','R102','ENABLED','BAROMETER',750,660);\par
+insert into SENSORS values('S808','R103','ENABLED','BAROMETER',780,690);\par
+insert into SENSORS values('S809','R103','ENABLED','ULTRASONIC',510,450);\par
+insert into SENSORS (SENSOR_ID,RTU_ID,STATUS,SENSOR_TYPE,REQ_VAL) values('S810','R104','DISABLED','ULTRASONIC',530);\par
+insert into SENSORS values('S811','R104','ENABLED','PRESSURE',60,50);\par
+\par
+\par
+\b Table \f2\endash\f1  USERS:\b0\par
+create table USERS(\par
+USER_ID varchar(5),\par
+USER_NAME varchar(20) not null,\par
+ROLE varchar(20) not null,\par
+PRIMARY KEY(USER_ID)\par
+);\par
+\par
+insert into users value('U501','PRAKASH','MONITOR');\par
+insert into users value('U502','PARTHIV','ADMINISTER');\par
+insert into users value('U503','SMITHA','ADMINISTER');\par
+\par
+\par
+\par
+\b Table \f2\endash\f1  CONTROLLER:\b0\par
+\par
+create table CONTROLLER(\par
+USER_ID varchar(5) not null,\par
+SENSOR_ID varchar(5) not null,\par
+FOREIGN KEY (USER_ID) REFERENCES USERS(USER_ID),\par
+FOREIGN KEY (SENSOR_ID) REFERENCES SENSORS(SENSOR_ID)\par
+);\par
+\par
+insert into CONTROLLER values('U501','S801');\par
+insert into CONTROLLER values('U501','S804');\par
+insert into CONTROLLER values('U501','S806');\par
+insert into CONTROLLER values('U502','S802');\par
+insert into CONTROLLER values('U502','S804');\par
+insert into CONTROLLER values('U503','S805');\par
+insert into CONTROLLER values('U501','S809');\par
+insert into CONTROLLER values('U502','S810');\par
+insert into CONTROLLER values('U503','S811');\par
+insert into CONTROLLER values('U501','S807');\par
+insert into CONTROLLER values('U503','S808');\par
+insert into CONTROLLER values('U502','S801');\par
+insert into CONTROLLER values('U501','S808');\par
+\par
+\b\par
+Write following queries based on above tables\par
+\par
+Simple Queries\par
+1.\tab Fetch details of all the sensors which are disabled\par
+\lang1033 Ans: \b0\par
+\lang9 select * from sensors where STATUS ='DISABLED';\par
+\b 2.\tab List sensors which are having required value less than current value\par
+\lang1033 Ans:\lang9\par
+\b0 select * from sensors where REQ_VAL<CURR_VAL;\par
+\par
+\par
+\b 3.\tab List sensors which are of type TEMPERATURE and required value greater than 96. Sort on required value field.\b0\par
+\b\lang1033 Ans:\b0\par
+\lang9 select * from sensors where SENSOR_TYPE="TEMPRATURE" AND REQ_VAL>96 order by REQ_VAL;\par
+\par
+\b 4.\tab List sensors which has no current values\b0\par
+\lang1033 Ans:\par
+\lang9 select * from sensors where CURR_VAL is null;\par
+\par
+\b 5.\tab List all sensors which are of type TEMPERATURE & PRESSURE.\b0\par
+\b\lang1033 Ans: \b0\par
+\lang9 select * from sensors where SENSOR_TYPE in ('TEMPRATURE','PRESSURE');\par
+\par
+\b 6.\tab List sensors with rtu_id 102 and sensor type pressure and required value greater than 30\b0\par
+\b\lang1033 Ans: \par
+ \b0\lang9 select * from sensors where RTU_ID='R102' AND SENSOR_TYPE='PRESSURE' AND REQ_VAL>30;\par
+\par
+\b\lang1033 E\lang9 MPLOYEE:\par
+\par
+\b0 Write simple queries from the EMP table\b\par
+1.\tab List the emp whose salary between 1200 and 160\par
+\lang1033 Ans:    \par
+\b0\lang9 select * from emp where SAL>1200 AND SAL <1600;\par
+\b\par
+2.\tab List the emp where job title is not CLERK, SALESMAN\par
+\lang1033 Ans:\b0   \par
+  \lang9 select * from emp where JOB not in ('CLERK','SALESMAN');\par
+\par
+\b 3.\tab List the details of employee whose name has second letter as D.\b0\par
+\b\lang1033 Ans:   \par
+ \b0\lang9 select * from emp where ENAME like '_D%';\par
+\par
+\b 4.\tab Select the dept details where deptno is not 10.\b0\par
+\b\lang1033 Ans:  \par
+  \b0\lang9 select * from dept where DEPTNO!=10;\par
+\par
+\b 5.\tab Select the name and deptno of employee whose name starting with \f2\lquote\f1 J\f2\rquote\f1  or \f2\lquote\f1 S\f2\rquote\f1  and not in dept 20 or 30.\par
+\lang1033 Ans:\par
+\b0      \lang9 select ENAME,DEPTNO from emp where ENAME like 'J%' or ENAME like 'S%' AND DEPTNO not in (20,30);\par
+\b\par
+6.\tab Select the dept having 5 characters in name ending with S.\par
+\lang1033 Ans:\b0   \par
+  \lang9 select DNAME from dept where length(DNAME)=5 AND DNAME like '%S';\par
+\b\par
+7.\tab List the depts which are located in DALLAS or BOSTON.\par
+\lang1033 Ans:   \par
+\b0\lang9 select * from dept where LOC in ('DALLAS','BOSTON');\par
+\par
+\b 8.\tab List the lowsal and highsal from the salgrade table\par
+\lang1033 Ans:   \par
+ \b0\lang9 select lowsal,highsal from salgrade;\par
+\par
+\b 9.\tab List the grade where the low salary is between 1400 and 2500. \b0\par
+\b\lang1033 Ans: \par
+  \b0\lang9 select grade from salgrade where lowsal>1400 and lowsal<2500;\par
+\par
+\b 10.\tab List the grade where high salary between 2000 and 5000\lang1033  \par
+Ans:\par
+  \b0\lang9 select grade from salgrade where highsal>2000 and highsal<5000;\par
+}
+ 
