@@ -1,3 +1,8 @@
 select* from tablename;
 use database;
 SELECT column1, column2, ...FROM table_name WHERE condition;
+INSERT INTO table_name VALUES  
+( value1, value2,...valueN )  
+( value1, value2,...valueN )  
+...........  
+( value1, value2,...valueN );   
