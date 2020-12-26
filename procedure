@@ -1,0 +1,221 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| cricketplayer      |
+| database1          |
+| edacfeb2020        |
+| empp               |
+| hello              |
+| information_schema |
+| mysql              |
+| performance_schema |
+| person             |
+| player             |
+| product            |
+| sys                |
+| test               |
++--------------------+
+13 rows in set (0.97 sec)
+
+mysql> use empp;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_empp |
++----------------+
+| dept           |
+| emp            |
++----------------+
+2 rows in set (0.17 sec)
+
+mysql> create procedure findname()
+    -> begin
+    -> select sal from emp where empno=7788;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql> delimiter //
+mysql> create procedure findname()
+    -> begin
+    -> select sal from emp where empno=7788;
+    -> end//
+Query OK, 0 rows affected (2.28 sec)
+
+mysql> call findsal()
+    -> //
+ERROR 1318 (42000): Incorrect number of arguments for PROCEDURE empp.findsal; expected 1, got 0
+mysql> call findsal()//
+ERROR 1318 (42000): Incorrect number of arguments for PROCEDURE empp.findsal; expected 1, got 0
+mysql> call findsal(int)//
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int)' at line 1
+mysql> call findsal(7788)//
++-------+
+| p_sal |
++-------+
+|  3200 |
++-------+
+1 row in set (0.51 sec)
+
+Query OK, 0 rows affected (0.54 sec)
+
+mysql> drop procedure findsal//
+Query OK, 0 rows affected (0.39 sec)
+
+mysql> delimiter //
+mysql> create procedure findname(in eno int)
+    -> begin
+    -> select sal from emp where empno =eno;
+    -> end//
+ERROR 1304 (42000): PROCEDURE findname already exists
+mysql> drop procedure findname//
+Query OK, 0 rows affected (0.32 sec)
+
+mysql> delimiter //
+mysql> create procedure findname(in eno int)
+    -> begin
+    -> select sal from emp where empno=7788;
+    -> ^C
+mysql> delimiter //
+mysql> create procedure findname(in eno int)
+    -> begin
+    -> select sal from emp where empno =eno;
+    -> end//
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> call findname(7782)
+    -> //
++---------+
+| sal     |
++---------+
+| 2450.00 |
++---------+
+1 row in set (0.06 sec)
+
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> select * from emp;
+    ->
+    ->
+    -> //
++-------+--------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-----------+------+------------+---------+------+--------+
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 | NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 | NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 | NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 | 0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 | NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 | NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-----------+------+------------+---------+------+--------+
+9 rows in set (0.00 sec)
+
+mysql> drop procedure findname//
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> create procedure findname(in eno int, out psal int)
+    -> begin
+    -> select sal into psal
+    -> from emp where empno = eno;
+    -> end//
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> call findsal(7782,@psal)//
+ERROR 1305 (42000): PROCEDURE empp.findsal does not exist
+mysql> create procedure findsal(in eno int, out psal int)
+    -> begin
+    -> select sal into psal
+    -> from emp where empno = eno;
+    -> end//
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> call findsal(7782,@psal)//
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from emp//
++-------+--------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-----------+------+------------+---------+------+--------+
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 | NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 | NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 | NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 | 0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 | NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 | NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-----------+------+------------+---------+------+--------+
+9 rows in set (0.00 sec)
+
+mysql> call findsal(7782,@psal)//
+Query OK, 1 row affected (0.00 sec)
+
+mysql> drop procedure findsal//
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> create procedure findsal(in eno int)
+    -> begin
+    ->    declare p_sal int;
+    ->
+    ->    select sal into p_sal
+    ->    from emp where empno = eno;
+    ->
+    ->     set p_sal = p_sal+200;
+    ->
+    ->      select p_sal;
+    -> end//
+Query OK, 0 rows affected (0.15 sec)
+
+mysql>
+mysql> call findsal(7782)//
++-------+
+| p_sal |
++-------+
+|  2650 |
++-------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create procedure findsl(in eno int)
+    -> begin
+    -> declare p_sal int;
+    -> select emo where empno =eno;
+    ->
+    -> set p_sal = p_sal+700;
+    -> select p_sal;
+    -> end//
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> call findsal(7788)
+    -> //
++-------+
+| p_sal |
++-------+
+|  3200 |
++-------+
+1 row in set (0.07 sec)
+
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> select * from emp
+    -> //
++-------+--------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-----------+------+------------+---------+------+--------+
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 | NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 | NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 | NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 | 0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 | NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 | NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-----------+------+------------+---------+------+--------+
+9 rows in set (0.00 sec)
+
+mysql>
+
