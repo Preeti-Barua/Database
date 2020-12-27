@@ -1,8 +1,12 @@
-select* from tablename;
-use database;
-SELECT column1, column2, ...FROM table_name WHERE condition;
-INSERT INTO table_name VALUES  
+1.select* from tablename;
+2.use database;
+3.SELECT column1, column2, ...FROM table_name WHERE condition;
+4.INSERT INTO table_name VALUES  
 ( value1, value2,...valueN )  
 ( value1, value2,...valueN )  
 ...........  
-( value1, value2,...valueN );   
+( value1, value2,...valueN );
+
+5.ALTER TABLE table_name  
+ADD new_column_name column_definition  
+[ FIRST | AFTER column_name ];  
