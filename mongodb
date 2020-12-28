@@ -1,0 +1,151 @@
+---
+1. > show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> use my_db
+switched to db my_db
+
+
+INSERTING DATA
+
+> db.bio.insertMany([{  _id:6 , name :"kia",age:21,class:10},{_id:4,name: "momo",age :25,class:12},{_id:5,name:"mo",age:23,class:12}])
+{ "acknowledged" : true, "insertedIds" : [ 6, 4, 5 ] }
+> db.bio.find({class : {$eq :12}})
+{ "_id" : 4, "name" : "momo", "age" : 25, "class" : 12 }
+{ "_id" : 5, "name" : "mo", "age" : 23, "class" : 12 }
+> db.bio.find({age : {$gte :21}})
+{ "_id" : 2, "name" : "pre", "age" : 25, "class" : 10 }
+{ "_id" : 6, "name" : "kia", "age" : 21, "class" : 10 }
+{ "_id" : 4, "name" : "momo", "age" : 25, "class" : 12 }
+{ "_id" : 5, "name" : "mo", "age" : 23, "class" : 12 }
+
+
+
+
+OPERATORS
+
+> db.bio.find({age : {$gte :24}})
+{ "_id" : 2, "name" : "pre", "age" : 25, "class" : 10 }
+{ "_id" : 4, "name" : "momo", "age" : 25, "class" : 12 }
+> db.biodata.find({age : {$in :[24,25] }})
+> db.bio.find({age : {$in :[24,25] }})
+{ "_id" : 2, "name" : "pre", "age" : 25, "class" : 10 }
+{ "_id" : 4, "name" : "momo", "age" : 25, "class" : 12 }
+>
+>
+>
+>
+> db.bio.find({age : {$nin :[24,25] }})
+{ "_id" : 1, "name" : "preeti", "class" : 10 }
+{ "_id" : 6, "name" : "kia", "age" : 21, "class" : 10 }
+{ "_id" : 5, "name" : "mo", "age" : 23, "class" : 12 }
+>
+>
+>
+>
+>
+> db.bio.find({ $and : [{name:"kia"} , {age:21}    ]})
+{ "_id" : 6, "name" : "kia", "age" : 21, "class" : 10 }
+>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
