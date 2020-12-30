@@ -10,3 +10,15 @@
 5.ALTER TABLE table_name  
 ADD new_column_name column_definition  
 [ FIRST | AFTER column_name ];  
+
+6.SELECT COUNT(column_name)
+FROM table_name
+WHERE condition;
+
+7.SELECT AVG(column_name)
+FROM table_name
+WHERE condition;
+
+8.SELECT SUM(column_name)
+FROM table_name
+WHERE condition;
