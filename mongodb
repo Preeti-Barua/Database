@@ -52,11 +52,87 @@ OPERATORS
 
 
 
+basics
+
+>mongo 
+
+>show dbs
+>use databasename
+
+>db.createCollection(" name_OF_COLLECTON ")
+{"OK" : 1}
+
+>db
+
+
+>db.dropDatabse()
+
+> show collections
+
+>db.collection.insertone/insertmany({"_id":1, "name" :"preeti","class" :10})
+     //we can create collection with this too
+"acknowledge"
+
+>insertmany( [{"_id":1, "name" :"pre","class" :10 }, {"_id":2, "name" :"prei","class" :9 },{"_id":1, "name" :"momo","class" :12 },{"_id":1, "name" :"pia","class" :12 }] )
+
+
+>db.collection_name .find( )
+>db.collection_name .find( ). pretty( )
+
+QUERY :to find how many ppl in class class 12 
+>db.collection.find({ class : { $eq :12}})
+
+
+Query:find whose age is greater than 24
+>db.collection_name.find({ age: { $gte :24}})
+
+$eq, $gt, $gte, $lte, $lt , $in, $nin (not in)
+
+>db.collection_name.find({age :{$in : [24,21]}})     //$in works as in between
+
+
+Operators:
+
+>db.collection_name.find({ $and: [{name:"depends on query"}, {age: "depends on query"}]})
+
+
+>db.collection_name.find({ $or: [{name:"depends on query"}, {age: "depends on query"}]})
+
+
+>db.collection_name.find({age: {$not : {$lt :25}}})      //if we want to find whose age os not 25
+
+>db.collection_name.find().count
+
+>db.collections_name.find({name: {$eq :"name"}})
+
+
+>db.collection_name.find({name : {$eq:"name"}},  {class :1})        //if we want class of particular name
+
+>db.collection_name.find({name : {$eq:"name"}},  {class :0})     //  if we dont want class of particular name
+
+
+>db.collection_name.find({age :{$gt :24}}).count()
+
+
+>db.collection_name.find().sort ( {age:1})        //ascending sort
+ 
+>db.collection_name.find().sort ( {age:-1})  //descending sort
+
+
+>db.collection_name.find().limit(2)  //it will show only 2 starting records 
+
+>db.collection_name.find().sort ( {class:1}).limit(2)        //it will show top 2  records whose (ascending) 
 
 
 
+UPDATE
+>db.collection_name . updateOne({_id:1 }, { $set: {age: 21}})     //updatating age in  id1 its adding new col
+
+>db.collection_name . updateOne({_id:1 }, { $set: {class:9}})       //setting class 9 
 
 
+DELETE
+>db.collection_name . deleteOne({_id :4})
 
 
 
